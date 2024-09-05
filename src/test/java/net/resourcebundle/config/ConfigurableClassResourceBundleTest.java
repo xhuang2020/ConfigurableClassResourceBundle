@@ -38,7 +38,7 @@ class ConfigurableClassResourceBundleTest {
             }
         };
         ConfigurableClassResourceBundle.Control<Person> control =
-                new ConfigurableClassResourceBundle.Control<>("json", converter);
+                new ConfigurableClassResourceBundle.Control<>(converter, "json");
         ConfigurableClassResourceBundle<Person> bundle = ConfigurableClassResourceBundle.getBundle(
                 "person", Locale.US, classLoader, control);
         Person person = bundle.getValue();
@@ -60,7 +60,7 @@ class ConfigurableClassResourceBundleTest {
             }
         };
         ConfigurableClassResourceBundle.Control<Person> control =
-                new ConfigurableClassResourceBundle.Control<>("yaml", converter);
+                new ConfigurableClassResourceBundle.Control<>(converter, "yaml");
         ConfigurableClassResourceBundle<Person> bundle = ConfigurableClassResourceBundle.getBundle(
             "person", Locale.UK, classLoader, control);
         Person person = bundle.getValue();

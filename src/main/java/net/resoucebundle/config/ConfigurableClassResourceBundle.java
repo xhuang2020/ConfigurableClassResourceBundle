@@ -9,16 +9,16 @@ import java.util.function.Function;
 
 public class ConfigurableClassResourceBundle<T> extends ResourceBundle {
     public static class Control<T> extends ResourceBundle.Control {
-        private final String suffix;
+        private final List<String> suffix;
         private final Function<InputStream, T> converter;
 
-        public Control(String suffix, Function<InputStream, T> converter) {
-            this.suffix = suffix;
+        public Control(Function<InputStream, T> converter, String... suffix) {
             this.converter = converter;
+            this.suffix = List.of(suffix);
         }
         @Override
         public List<String> getFormats(String baseName) {
-            return List.of(suffix);
+            return suffix;
         }
         @Override
         public ConfigurableClassResourceBundle<T> newBundle(
@@ -29,7 +29,7 @@ public class ConfigurableClassResourceBundle<T> extends ResourceBundle {
                 boolean reload
         ) throws IOException {
 
-            if (!format.equals(this.suffix)) {
+            if (!this.suffix.contains(format)) {
                 throw new IllegalArgumentException("Expected format '" + this.suffix + "' but got '" + format + "'");
             }
             String resourceName = toResourceName(toBundleName(baseName, locale), format);
